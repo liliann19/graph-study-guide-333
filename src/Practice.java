@@ -97,7 +97,24 @@ public class Practice {
    * @return a sorted list of all reachable vertex values
    */
   public static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting) {
-    return null;
+    List<Integer> result = sortedReachable(graph, starting, new HashSet<>());
+    Collections.sort(result);
+    return result;
+  }
+
+  private static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting, Set<Integer> visited) {
+    List<Integer> list = new ArrayList<>();
+
+    if (!graph.containsKey(starting) || visited.contains(starting)) return list;
+
+    visited.add(starting);
+
+    list.add(starting);
+
+    for (Integer neighbor : graph.get(starting)) {
+      list.addAll(sortedReachable(graph, neighbor, visited));
+    }
+    return list;
   }
 
   /**
