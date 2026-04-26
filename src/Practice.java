@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +26,23 @@ public class Practice {
    * @return the number of vertices with odd values reachable from the starting vertex
    */
   public static int oddVertices(Vertex<Integer> starting) {
-    return 0;
+    return oddVertices(starting, new HashSet<>());
+  }
+
+  private static int oddVertices(Vertex<Integer> starting, Set<Vertex<Integer>> visited) {
+    if (starting == null || visited.contains(starting)) return 0;
+
+    visited.add(starting);
+
+    int countOdd = 0;
+    if (starting.data % 2 != 0) {
+      countOdd = 1;
+    }
+
+    for (Vertex<Integer> neighbor : starting.neighbors) {
+      countOdd += oddVertices(neighbor, visited);
+    }
+    return countOdd;
   }
 
   /**
